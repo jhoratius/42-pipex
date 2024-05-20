@@ -1,7 +1,7 @@
 NAME = pipex
 
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror
+CFLAGS 		= -Wall -Wextra 
 RM 			= rm -f
 EXTSRCS 	= .c
 PATHSRCS 	= src/
@@ -19,7 +19,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(NAME) $(OBJS)
