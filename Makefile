@@ -1,7 +1,7 @@
 NAME = pipex
 
 CC 			= cc
-CFLAGS 		= -Wall -Wextra 
+CFLAGS 		= -Wall -Wextra -Werror
 RM 			= rm -f
 EXTSRCS 	= .c
 PATHSRCS 	= src/
@@ -9,6 +9,7 @@ PATHSRCS 	= src/
 SRCS 		= $(addsuffix ${EXTSRCS}, \
 							$(addprefix ${PATHSRCS}, \
 							pipex \
+							parsing \
 				))
 
 OBJS=$(SRCS:.c=.o)

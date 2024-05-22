@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/22 16:47:00 by jhoratiu         ###   ########.fr       */
+/*   Created: 2024/05/22 16:21:34 by jhoratiu          #+#    #+#             */
+/*   Updated: 2024/05/22 16:21:58 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-bool	parsing(char **av)
+int	ft_strcmp(char *s1, char *s2)
 {
-	if (!cmd1_check(av[2]))
-		return (false);
-	if (!cmd2_check(av[3]))
-		return (false);
-	return (true);
-}
+	int	i;
+	int	j;
 
-char	**cmd1_check(char *cmd)
-{
-	char	**args;
-	if (!cmd)
-		return (NULL);
-	args = ft_split(cmd, ' ');
-	if (!args)
-		return (NULL);
-	if (ft_strcmp(args[0], ))
-	return (args);
-}
-
-bool	cmd2_check(char *cmd)
-{
-	if (!cmd)
-		return (false);
-	return ;
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] == s2[i])
+			j = 0;
+		else if (s1[i] > s2[i])
+		{
+			j = s1[i] - s2[i];
+			return (j);
+		}
+		else if (s1[i] < s2[i])
+		{
+			j = s1[i] - s2[i];
+			return (j);
+		}
+		i += 1;
+	}
+	return (0);
 }

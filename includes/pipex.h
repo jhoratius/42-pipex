@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/20 15:34:17 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:44:26 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,23 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-bool	parsing(char **av);
-bool	infile_check(char *infile);
-bool	cmd1_check(char *cmd);
-bool	cmd2_check(char *cmd);
-bool	outfile_check(char *outfile);
+// main
+bool			parsing(char **av);
+bool			cmd1_check(char *cmd);
+bool			cmd2_check(char *cmd);
+
+// parsing
+bool			parsing(char **av);
+bool			cmd1_check(char *cmd);
+bool			cmd2_check(char *cmd);
+
+// ft_split
+static size_t	ft_count_words(const char *str, char c);
+static void		ft_free_tab(char **tab);
+static int		ft_tab_imp(char **tab, char *str, char c);
+char			**ft_split(const char *s, char c);
+
+// utils
+int				ft_strcmp(char *s1, char *s2);
 
 #endif
