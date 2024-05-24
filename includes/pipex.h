@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/23 15:13:31 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/24 18:33:14 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@
 # include <sys/wait.h>
 
 // main
-bool			parsing(char **av);
 char			**cmd_check(char *cmd);
 
 // parsing
-bool			parsing(char **av);
+bool			parsing(char **av, char **env);
 bool			cmd1_check(char *cmd);
 bool			cmd2_check(char *cmd);
 

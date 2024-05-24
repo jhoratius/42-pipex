@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/22 15:43:36 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/24 18:05:18 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int ac, char **av, char **env)
 
 	// if (ac != 5)
 	// 	return (1);
-	if (!parsing(av))
+	if (!parsing(av, env))
 		return (1);
 	// if (!check_access(av[1], av[3]))
 	// 	return (1);
