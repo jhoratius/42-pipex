@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/24 18:13:31 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:41:53 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**cmd_check(char *cmd, char **env)
 		return (NULL);
 	while (env_args)
 	{
-		path = ft_concat("/usr/bin/", args[0]);
+		path = ft_strjoin("/usr/bin/", args[0]);
 	}
 	if (!path)
 	{

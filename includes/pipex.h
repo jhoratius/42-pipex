@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/24 18:33:14 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:42:31 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ char			**ft_split(const char *s, char c);
 
 // utils
 int				ft_strcmp(char *s1, char *s2);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
