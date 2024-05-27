@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/24 18:05:18 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:42:12 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **env)
 	int			fd[2];
 	int			i;
 	char		*args_cmd1[3];
-	// char		*args_cmd2[2];
+	char		*args_cmd2[2];
 
 	i = 0;
 	while(av[i])
@@ -54,8 +54,8 @@ int	main(int ac, char **av, char **env)
 	args_cmd1[0] = "/bin/echo";
 	args_cmd1[1] = "Julien";
 	args_cmd1[2] =  NULL;
-	// args_cmd2[0] = "/bin/cat";
-	// args_cmd2[1] = NULL;
+	args_cmd2[0] = "/bin/cat";
+	args_cmd2[1] = NULL;
 
 	// if (ac != 5)
 	// 	return (1);
@@ -74,10 +74,17 @@ int	main(int ac, char **av, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd[0]);
 		dup2(fd[1], STDIN_FILENO);
 		close(fd[1]);
+		printf("fd[0]\n");
 		execve("/usr/bin/echo", args_cmd1, env);
+	}
+	else
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		printf("fd[1]\n");
+		execve("/usr/bin/cat", args_cmd2, env);
 	}
 	wait(NULL);
 	close(fd[0]);
