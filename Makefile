@@ -10,6 +10,8 @@ SRCS 		= $(addsuffix ${EXTSRCS}, \
 							$(addprefix ${PATHSRCS}, \
 							pipex \
 							parsing \
+							ft_split \
+							utils \
 				))
 
 OBJS=$(SRCS:.c=.o)

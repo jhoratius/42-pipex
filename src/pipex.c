@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/27 17:42:12 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:55:27 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@
 // 	return ;
 // }
 
-// bool	check_access(char **path_infile, char **path_outfile)
-// {
-// 	if (access(path_infile, R_OK) == 0)
-// 	{
-// 		printf("infile[read not allowed]");
-// 		return (false);
-// 	}
-// 	if (access(path_outfile, W_OK | X_OK) == 0)
-// 	{
-// 		printf("outfile[writing not allowed]");
-// 		printf("outfile[exec not allowed]");
-// 		return (false);
-// 	}
-// 	return (true);
-// }
+bool	check_access(char *path_infile, char *path_outfile)
+{
+	if (access(path_infile, R_OK) == -1)
+	{
+		printf("infile[read not allowed]");
+		return (false);
+	}
+	if (access(path_outfile, W_OK) == -1)
+	{
+		printf("outfile [writing not allowed]\n");
+		printf("outfile [exec not allowed]\n");
+		return (false);
+	}
+	return (true);
+}
 
 int	main(int ac, char **av, char **env)
 {
-	// int			infile;
-	// int			outfile;
+	int			infile;
+	int			outfile;
 	int			pid;
 	int			fd[2];
 	int			i;
@@ -61,30 +61,25 @@ int	main(int ac, char **av, char **env)
 	// 	return (1);
 	if (!parsing(av, env))
 		return (1);
-	// if (!check_access(av[1], av[3]))
-	// 	return (1);
-	// infile = open(av[1], O_RDONLY);
-	// if (infile < 0)
-	// 	return (1);
-	// outfile = open(av[3], O_RDWR);
-	// if (outfile < 0)
-	// 	return (1);
+	printf("av[1] : %s\n", av[1]);
+	printf("av[3] : %s\n", av[3]);
+	if (!check_access(av[1], av[4]))
+		return (1);
+	infile = open("infile", O_RDONLY);
+	if (infile < 0)
+		return (1);
+	outfile = open(av[3], O_RDWR);
+	if (outfile < 0)
+		return (1);
 	if(pipe(fd) < 0)
 		return (1);
 	pid = fork();
 	if (pid == 0)
 	{
+		close(fd[0]);
 		dup2(fd[1], STDIN_FILENO);
 		close(fd[1]);
-		printf("fd[0]\n");
 		execve("/usr/bin/echo", args_cmd1, env);
-	}
-	else
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		printf("fd[1]\n");
-		execve("/usr/bin/cat", args_cmd2, env);
 	}
 	wait(NULL);
 	close(fd[0]);

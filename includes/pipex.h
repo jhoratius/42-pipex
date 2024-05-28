@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/25 16:42:31 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:42:30 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,20 @@
 # include <sys/wait.h>
 
 // main
-char			**cmd_check(char *cmd);
+char			**cmd_check(char *cmd, char **env);
 
 // parsing
 bool			parsing(char **av, char **env);
-bool			cmd1_check(char *cmd);
-bool			cmd2_check(char *cmd);
+char			**check_path(char **env);
+char			*create_path(char **env_args);
+void			ft_free_split(void);
 
 // ft_split
-static size_t	ft_count_words(const char *str, char c);
-static void		ft_free_tab(char **tab);
-static int		ft_tab_imp(char **tab, char *str, char c);
 char			**ft_split(const char *s, char c);
 
 // utils
-int				ft_strcmp(char *s1, char *s2);
-char	*ft_strjoin(char const *s1, char const *s2);
+int				ft_strncmp(char *s1, char *s2, unsigned int n);
+char			*ft_strjoin(char const *s1, char const *s2);
+int				ft_strlen(char *str);
 
 #endif

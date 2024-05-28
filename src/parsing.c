@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/27 18:28:37 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:15:19 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	**cmd_check(char *cmd, char **env)
 	char	*path;
 	int		i;
 
+	i = 0;
 	if (!cmd || !env)
 		return (NULL);
 	args = ft_split(cmd, ' ');
@@ -40,11 +41,16 @@ char	**cmd_check(char *cmd, char **env)
 		return (NULL);
 	env_args = check_path(env);
 	if (!env_args)
+	{
+		
 		return (NULL);
+	}
 	path = create_path(env_args);
 	if (!path)
 		return (NULL);
+	// printf("path : %s\n", path);
 	args[0] = path;
+	free(path);
 	return (args);
 }
 
@@ -61,6 +67,7 @@ char	**check_path(char **env)
 	{
 		if (!(ft_strncmp(env[i], "PATH", 4)))
 			break ;
+		i++;
 	}
 	env_args = ft_split(env[i], ':');
 	if (!env_args)
@@ -71,7 +78,7 @@ char	**check_path(char **env)
 char	*create_path(char **env_args)
 {
 	int		i;
-	char	**path;
+	char	*path;
 	bool	cmd_found;
 
 	i = 0;
@@ -83,8 +90,8 @@ char	*create_path(char **env_args)
 		path = ft_strjoin(path, env_args[i]);
 		if (!path)
 		{
-			ft_free_split(env_args);
-			ft_free_strjoin(path);
+			ft_free_split();
+			// ft_free_strjoin(path);
 			return (NULL);
 		}
 		if(access(path, X_OK))
@@ -95,16 +102,14 @@ char	*create_path(char **env_args)
 	}
 	if (cmd_found == false)
 	{
-		ft_free_split(env_args);
-		ft_free_strjoin(path);
+		ft_free_split();
+		// ft_free_strjoin(path);
 		return (NULL);
 	}
 	return (path);
 }
 
-void	ft_free_split()
+void	ft_free_split(void)
 {
-	int	i;
-
 	return ;
 }
