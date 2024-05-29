@@ -1,7 +1,7 @@
 NAME = pipex
 
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror
+CFLAGS 		= -Wall -Wextra 
 RM 			= rm -f
 EXTSRCS 	= .c
 PATHSRCS 	= src/

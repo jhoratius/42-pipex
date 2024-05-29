@@ -6,25 +6,20 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/28 19:15:19 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:40:41 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-bool	parsing(char **av, char **env)
-{
-	char	**cmd1;
-	char	**cmd2;
+// bool	parsing(char **av, char **env)
+// {
+// 	char	**cmd1;
+// 	char	**cmd2;
 
-	cmd1 = cmd_check(av[2], env);
-	if (!cmd1)
-		return (false);
-	cmd2 = cmd_check(av[3], env);
-	if (!cmd2)
-		return (false);
-	return (true);
-}
+	
+// 	return (true);
+// }
 
 char	**cmd_check(char *cmd, char **env)
 {
@@ -42,14 +37,15 @@ char	**cmd_check(char *cmd, char **env)
 	env_args = check_path(env);
 	if (!env_args)
 	{
-		
+		free(args);
 		return (NULL);
 	}
 	path = create_path(env_args);
 	if (!path)
 		return (NULL);
-	// printf("path : %s\n", path);
 	args[0] = path;
+	args[1] = NULL;
+	args[2] = NULL;
 	free(path);
 	return (args);
 }
@@ -85,6 +81,11 @@ char	*create_path(char **env_args)
 	path = env_args[i];
 	i++;
 	cmd_found = false;
+	if(access(path, X_OK))
+	{
+		cmd_found = true;
+		return (path);
+	}
 	while (env_args[i])
 	{
 		path = ft_strjoin(path, env_args[i]);
