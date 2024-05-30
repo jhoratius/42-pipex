@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/29 16:35:48 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:02:22 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	check_access(char *path_infile, char *path_outfile)
 {
 	if (access(path_infile, R_OK) == -1)
 	{
-		printf("infile[read not allowed]");
+		printf("infile[read not allowed]\n");
 		return (false);
 	}
 	if (access(path_outfile, W_OK) == -1)
@@ -35,7 +35,6 @@ bool	check_access(char *path_infile, char *path_outfile)
 
 int	main(int ac, char **av, char **env)
 {
-	printf("OK");
 	int			infile;
 	int			outfile;
 	int			pid1;
@@ -70,12 +69,15 @@ int	main(int ac, char **av, char **env)
 
 	// pipe then fork
 	if (pipe(fd) < 0)
+	{
+		printf("OK");
 		return (1);
+	}
 	while (cmd1[i++])
-		printf("cmd1 : %s", cmd1[i]);
+		printf("cmd1 : %s\n", cmd1[i]);
 	i = 0;
 	while (cmd2[i++])
-		printf("cmd2 : %s", cmd2[i]);
+		printf("cmd2 : %s\n", cmd2[i]);
 	pid1 = fork();
 
 	// processes
