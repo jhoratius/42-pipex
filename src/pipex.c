@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/30 18:02:22 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:28:46 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	check_access(char *path_infile, char *path_outfile)
 		printf("infile[read not allowed]\n");
 		return (false);
 	}
-	if (access(path_outfile, W_OK) == -1)
+	if (access(path_outfile, F_OK) != -1 && access(path_outfile, W_OK) == -1)
 	{
 		printf("outfile [writing not allowed]\n");
 		printf("outfile [exec not allowed]\n");
@@ -48,14 +48,14 @@ int	main(int ac, char **av, char **env)
 	// 	return (1);
 
 	// parsing
-	cmd1 = cmd_check(av[1], env);
+	cmd1 = cmd_check(av[2], env);
 	if (!cmd1)
 		return (1);
-	cmd1[1] = av[1];
-	cmd2 = cmd_check(av[4], env);
+	// cmd1[1] = av[2];
+	cmd2 = cmd_check(av[3], env);
 	if (!cmd2)
 		return (1);
-	cmd2[1] = av[4];
+	// cmd2[1] = av[3];
 
 	// check access
 	if (!check_access(av[1], av[4]))
@@ -73,11 +73,11 @@ int	main(int ac, char **av, char **env)
 		printf("OK");
 		return (1);
 	}
-	while (cmd1[i++])
-		printf("cmd1 : %s\n", cmd1[i]);
-	i = 0;
-	while (cmd2[i++])
-		printf("cmd2 : %s\n", cmd2[i]);
+	// while (cmd1[i++])
+	// 	printf("cmd1 : %s\n", cmd1[i]);
+	// i = 0;
+	// while (cmd2[i++])
+	// 	printf("cmd2 : %s\n", cmd2[i]);
 	pid1 = fork();
 
 	// processes
@@ -98,7 +98,8 @@ int	main(int ac, char **av, char **env)
 		dup2(outfile, STDOUT_FILENO);
 		close(fd[0]);
 		close(outfile);
-		execve(cmd2[0], cmd2, env);
+		// fprintf(stderr, "cmd2[0] : %s\n", cmd2[0]);
+		// fprintf(stderr, "%d\n", execve(cmd2[0], cmd2, env));
 	}
 	// close(fd[0]);
 	// close(fd[1]);
@@ -108,5 +109,6 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	if (waitpid(pid2, NULL, 0) == -1)
 		return (1);
+	// wait(NULL);
 	return (0);
 }

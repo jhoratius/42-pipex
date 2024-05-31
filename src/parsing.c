@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/29 16:40:41 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:06:44 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ char	**cmd_check(char *cmd, char **env)
 		free(args);
 		return (NULL);
 	}
-	path = create_path(env_args);
+	path = create_path(args[0], env_args);
 	if (!path)
-		return (NULL);
+		return (NULL);	
 	args[0] = path;
-	args[1] = NULL;
-	args[2] = NULL;
-	free(path);
+	// free(path);
 	return (args);
 }
 
@@ -71,35 +69,36 @@ char	**check_path(char **env)
 	return (env_args);
 }
 
-char	*create_path(char **env_args)
+char	*create_path(char *cmd, char **env_args)
 {
 	int		i;
 	char	*path;
 	bool	cmd_found;
 
 	i = 0;
-	path = env_args[i];
-	i++;
 	cmd_found = false;
-	if(access(path, X_OK))
+	if(access(cmd, X_OK) == 0)
 	{
 		cmd_found = true;
-		return (path);
+		return (cmd);
 	}
 	while (env_args[i])
 	{
-		path = ft_strjoin(path, env_args[i]);
+		path = ft_strjoin(env_args[i], "/");
+		path = ft_strjoin(path, cmd);
 		if (!path)
 		{
 			ft_free_split();
 			// ft_free_strjoin(path);
 			return (NULL);
 		}
-		if(access(path, X_OK))
+		if(access(path, X_OK) == 0)
 		{
+			fprintf(stderr, "Command found: %s\n", path);
 			cmd_found = true;
 			break ;
 		}
+		i++;
 	}
 	if (cmd_found == false)
 	{

@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/28 16:42:30 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/05/31 16:56:16 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char			**cmd_check(char *cmd, char **env);
 // parsing
 bool			parsing(char **av, char **env);
 char			**check_path(char **env);
-char			*create_path(char **env_args);
+char			*create_path(char *cmd, char **env_args);
 void			ft_free_split(void);
 
 // ft_split
