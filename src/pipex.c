@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/05 16:57:55 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:09:55 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(int ac, char **av, char **env)
 	char		**cmd2;
 	char		*path1;
 	char		*path2;
-	int			i = 0;
 
 	if (ac != 5)
 		return (1);
