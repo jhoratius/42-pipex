@@ -6,26 +6,16 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/31 20:06:44 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:03:47 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-// bool	parsing(char **av, char **env)
-// {
-// 	char	**cmd1;
-// 	char	**cmd2;
-
-	
-// 	return (true);
-// }
-
-char	**cmd_check(char *cmd, char **env)
+char	**cmd_check(char *cmd, char **env, char **path)
 {
 	char	**args;
 	char	**env_args;
-	char	*path;
 	int		i;
 
 	i = 0;
@@ -36,15 +26,13 @@ char	**cmd_check(char *cmd, char **env)
 		return (NULL);
 	env_args = check_path(env);
 	if (!env_args)
-	{
-		free(args);
-		return (NULL);
-	}
-	path = create_path(args[0], env_args);
+		return (free(args), NULL);
+	*path = create_path(args, env_args);
 	if (!path)
-		return (NULL);	
-	args[0] = path;
-	// free(path);
+		return (free(args), free(env_args), NULL);
+	ft_free_table(env_args);
+	if (!path)
+		return (NULL);
 	return (args);
 }
 
@@ -69,47 +57,54 @@ char	**check_path(char **env)
 	return (env_args);
 }
 
-char	*create_path(char *cmd, char **env_args)
+char	*create_path(char **cmd, char **env_args)
 {
 	int		i;
 	char	*path;
+	char	*tmp;
 	bool	cmd_found;
 
 	i = 0;
 	cmd_found = false;
-	if(access(cmd, X_OK) == 0)
+	if(access(cmd[0], X_OK) == 0)
 	{
 		cmd_found = true;
-		return (cmd);
+		return (cmd[0]);
 	}
 	while (env_args[i])
 	{
-		path = ft_strjoin(env_args[i], "/");
-		path = ft_strjoin(path, cmd);
-		if (!path)
-		{
-			ft_free_split();
-			// ft_free_strjoin(path);
+		tmp = ft_strjoin(env_args[i], "/");
+		if (!tmp)
 			return (NULL);
-		}
+		path = ft_strjoin(tmp, cmd[0]);
+		if (!path)
+			return (NULL);
+		free(tmp);
 		if(access(path, X_OK) == 0)
 		{
-			fprintf(stderr, "Command found: %s\n", path);
+			// fprintf(stderr, "Command found: %s\n", path);
 			cmd_found = true;
 			break ;
 		}
+		free(path);
 		i++;
 	}
 	if (cmd_found == false)
-	{
-		ft_free_split();
-		// ft_free_strjoin(path);
-		return (NULL);
-	}
+		return (ft_free_table(cmd), ft_free_table(&path), NULL);
 	return (path);
 }
 
-void	ft_free_split(void)
+void	ft_free_table(char **split)
 {
+	int	i;
+	
+	i = 0;
+	while (split[i])
+	{
+		if (split[i] != NULL)
+			free(split[i]);
+		i++;
+	}
+	free(split);
 	return ;
 }
