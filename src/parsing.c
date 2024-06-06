@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/05 17:03:47 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:24:35 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,12 @@ char	*create_path(char **cmd, char **env_args)
 			break ;
 		}
 		free(path);
+		path = NULL;
 		i++;
 	}
 	if (cmd_found == false)
-		return (ft_free_table(cmd), ft_free_table(&path), NULL);
+		return (NULL);
+	// ft_free_table(cmd);
 	return (path);
 }
 

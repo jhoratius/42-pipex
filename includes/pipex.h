@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/05 16:53:07 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:17:44 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-// main
+// pipex
 char			**cmd_check(char *cmd, char **env, char **path);
+bool			check_access(char *path_infile, char *path_outfile);
+void			ft_work_pid1(int *fd, int infile);
+void			ft_work_pid2(int *fd, int outfile);
 
 // parsing
 bool			parsing(char **av, char **env);
