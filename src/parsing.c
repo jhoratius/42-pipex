@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/06 15:24:35 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:48:04 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,13 @@ char	*create_path(char **cmd, char **env_args)
 		{
 			// fprintf(stderr, "Command found: %s\n", path);
 			cmd_found = true;
-			break ;
+			return (path);
 		}
 		free(path);
 		path = NULL;
 		i++;
 	}
-	if (cmd_found == false)
-		return (NULL);
-	// ft_free_table(cmd);
-	return (path);
+	return (cmd[0]);
 }
 
 void	ft_free_table(char **split)
@@ -104,9 +101,13 @@ void	ft_free_table(char **split)
 	while (split[i])
 	{
 		if (split[i] != NULL)
+		{
 			free(split[i]);
+			split[i] = NULL;
+		}
 		i++;
 	}
 	free(split);
+	split = NULL;
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/06 15:17:44 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:04:13 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 char			**cmd_check(char *cmd, char **env, char **path);
 bool			check_access(char *path_infile, char *path_outfile);
 void			ft_work_pid1(int *fd, int infile);
-void			ft_work_pid2(int *fd, int outfile);
+void			ft_work_pid_end(int *fd, int outfile);
 
 // parsing
 bool			parsing(char **av, char **env);
@@ -44,7 +44,8 @@ int				ft_strncmp(char *s1, char *s2, unsigned int n);
 char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strlen(char *str);
 
-void			ft_work_pid1(int *fd, int infile);
-void			ft_work_pid2(int *fd, int outfile);
+void			ft_work_pid_start(int *fd, int infile);
+void			ft_work_pid_mid(int *fd, int infile);
+void			ft_work_pid_end(int *fd, int outfile);
 
 #endif
