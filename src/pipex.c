@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/10 19:56:05 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:32:48 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ int	main(int ac, char **av, char **env)
 	int			infile;
 	int			outfile;
 	int			pid_start;
-	int			pid_mid
+	int			pid_mid;
 	int			pid_end;
 	int			fd[2];
 	char		**cmd;
 	char		**cmd2;
+	char		**cmd3;
 	char		*path;
 	char		*path2;
+	char		*path3;
 	int			i;
 
 	// if (ac <= 5)
@@ -46,10 +48,16 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	path = NULL;
 	path2 = NULL;
+	path3 = NULL;
 	// pid put infile to std-in and std_out to next cmd
 	// ft_fork_and_cmd();
 	pid_start = fork();
-	if (pid_start == 0)
+	if (pid_start < 0)
+	{
+		perror("fork fail 1");
+		return (1);
+	}
+	else if (pid_start == 0)
 	{
 		cmd = cmd_check(av[i], env, &path);
 		if (!cmd)
@@ -61,35 +69,62 @@ int	main(int ac, char **av, char **env)
 			// free everything
 			free(path);
 			ft_free_table(cmd);
+			perror("exec fail 1");
 			return (1);
 		}
 	}
 
-	pid_mid = fork();
-	//	pid_mid
 	//	while (i < ac - 2)
 	//	{
 	//		
 	//	}
-
-	// pid_end
-	pid_end = fork();
-	if (pid_end == 0)
+	// pid put std_in to cmd1 and std_out to next cmd
+	pid_mid = fork();
+	if (pid_mid < 0)
+	{
+		perror("fork fail 2");
+		return (1);
+	}
+	else if (pid_mid == 0)
 	{
 		cmd2 = cmd_check(av[3], env, &path2);
 		if (!cmd2)
 			return (1);
 		// printf("%s\n", cmd2[0]);
-		ft_work_pid_end(fd, outfile);
+		ft_work_pid_mid(fd);
 		if (execve(path2, cmd2, env) == -1)
 		{
 			// free everything
 			free(path2);
 			ft_free_table(cmd2);
+			perror("exec fail 2");
 			return (1);
 		}
 	}
 
+	// pid put std_in to cmd2 and std_out to outfile
+	pid_end = fork();
+	if (pid_end < 0)
+	{
+		perror("fork fail 3");
+		return (1);
+	}
+	else if (pid_end == 0)
+	{
+		cmd3 = cmd_check(av[4], env, &path3);
+		if (!cmd3)
+			return (1);
+		// printf("%s\n", cmd3[0]);
+		ft_work_pid_end(fd, outfile);
+		if (execve(path3, cmd3, env) == -1)
+		{
+			// free everything
+			free(path3);
+			ft_free_table(cmd3);
+			perror("exec fail 3");
+			return (1);
+		}
+	}
 	// close everything
 	close(fd[0]);
 	close(fd[1]);
@@ -108,7 +143,7 @@ bool	check_access(char *path_infile, char *path_outfile)
 {
 	if (access(path_infile, R_OK) == -1)
 	{
-		printf("infile[read not allowed]\n");
+		printf("infile [read not allowed]\n");
 		return (false);
 	}
 	if (access(path_outfile, F_OK) != -1 && access(path_outfile, W_OK) == -1)
@@ -129,7 +164,7 @@ void	ft_work_pid_start(int *fd, int infile)
 	close(fd[1]);
 }
 
-void	ft_work_pid_mid(int *fd, int outfile)
+void	ft_work_pid_mid(int *fd)
 {
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
@@ -143,5 +178,4 @@ void	ft_work_pid_end(int *fd, int outfile)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(fd[0]);
-	close(outfile);
 }
