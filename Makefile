@@ -9,9 +9,11 @@ PATHSRCS 	= src/
 
 SRCS 		= $(addsuffix ${EXTSRCS}, \
 							$(addprefix ${PATHSRCS}, \
-							pipex \
-							parsing \
+							ft_handle_files \
 							ft_split \
+							ft_work_pid \
+							parsing \
+							pipex \
 							utils \
 				))
 
