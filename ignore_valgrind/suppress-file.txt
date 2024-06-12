@@ -1,0 +1,6 @@
+{
+	ignore_grep_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/grep
+}

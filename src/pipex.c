@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/11 17:32:48 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:10:32 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **env)
 	int			pid_start;
 	int			pid_mid;
 	int			pid_end;
-	int			fd[2];
+	int			fd[2][2];
 	char		**cmd;
 	char		**cmd2;
 	char		**cmd3;
@@ -38,17 +38,14 @@ int	main(int ac, char **av, char **env)
 	i = 2;
 	if (!check_access(av[1], av[ac - 1]))
 		return (1);
-	infile = open(av[1], O_RDONLY);
-	if (infile < 0)
-		return (1);
-	outfile = open(av[ac - 1], O_RDWR | O_CREAT, 0644);
-	if (outfile < 0)
-		return (1);
-	if (pipe(fd) < 0)
+	
+	if (pipe(fd[0]) < 0 || pipe(fd[1]) < 0)
 		return (1);
 	path = NULL;
 	path2 = NULL;
 	path3 = NULL;
+	infile = 42;
+	outfile = 42;
 	// pid put infile to std-in and std_out to next cmd
 	// ft_fork_and_cmd();
 	pid_start = fork();
@@ -59,18 +56,22 @@ int	main(int ac, char **av, char **env)
 	}
 	else if (pid_start == 0)
 	{
+		infile = open(av[1], O_RDONLY);
+		if (infile < 0)
+			return (1);
 		cmd = cmd_check(av[i], env, &path);
 		if (!cmd)
 			return (1);
 		// printf("%s\n", cmd2[0]);
 		ft_work_pid_start(fd, infile);
+		fprintf(stderr, "blblbl1\n");
 		if (execve(path, cmd, env) == -1)
 		{
 			// free everything
 			free(path);
 			ft_free_table(cmd);
 			perror("exec fail 1");
-			return (1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -92,13 +93,14 @@ int	main(int ac, char **av, char **env)
 			return (1);
 		// printf("%s\n", cmd2[0]);
 		ft_work_pid_mid(fd);
+		fprintf(stderr, "blblbl2\n");
 		if (execve(path2, cmd2, env) == -1)
 		{
 			// free everything
 			free(path2);
 			ft_free_table(cmd2);
 			perror("exec fail 2");
-			return (1);
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -111,23 +113,28 @@ int	main(int ac, char **av, char **env)
 	}
 	else if (pid_end == 0)
 	{
+		outfile = open(av[ac - 1], O_RDWR | O_CREAT, 0644);
+		if (outfile < 0)
+			return (1);
 		cmd3 = cmd_check(av[4], env, &path3);
 		if (!cmd3)
 			return (1);
-		// printf("%s\n", cmd3[0]);
 		ft_work_pid_end(fd, outfile);
+		fprintf(stderr, "blblbl3\n");
 		if (execve(path3, cmd3, env) == -1)
 		{
 			// free everything
 			free(path3);
 			ft_free_table(cmd3);
 			perror("exec fail 3");
-			return (1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	// close everything
-	close(fd[0]);
-	close(fd[1]);
+	close(fd[0][0]);
+	close(fd[0][1]);
+	close(fd[1][0]);
+	close(fd[1][1]);
 	close(infile);
 	close(outfile);
 	// wait everything
@@ -155,27 +162,35 @@ bool	check_access(char *path_infile, char *path_outfile)
 	return (true);
 }
 
-void	ft_work_pid_start(int *fd, int infile)
+void	ft_work_pid_start(int fd[2][2], int infile)
 {
-	close(fd[0]);
+	close(fd[1][0]);
+	close(fd[1][1]);
+	close(fd[0][0]);
 	dup2(infile, STDIN_FILENO);
 	close(infile);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
+	dup2(fd[0][1], STDOUT_FILENO);
+	close(fd[0][1]);
 }
 
-void	ft_work_pid_mid(int *fd)
+void	ft_work_pid_mid(int fd[2][2])
 {
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
+	close(fd[0][1]);
+	close(fd[1][0]);
+	dup2(fd[0][0], STDIN_FILENO);
+	close(fd[0][0]);
+	close(fd[1][0]);
+	dup2(fd[1][1], STDOUT_FILENO);
+	close(fd[1][1]);
 }
 
-void	ft_work_pid_end(int *fd, int outfile)
+void	ft_work_pid_end(int fd[2][2], int outfile)
 {
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
+	close(fd[0][0]);
+	close(fd[0][1]);
+	close(fd[1][1]);
+	dup2(fd[1][0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
-	close(fd[0]);
+	close(fd[1][0]);
+	close(outfile);
 }
