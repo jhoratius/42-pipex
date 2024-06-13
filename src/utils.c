@@ -6,13 +6,13 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:21:34 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/05 16:32:35 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:46:34 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int ft_strncmp(char *s1, char *s2, unsigned int n)
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
 	unsigned int	i;
 	unsigned int	j;

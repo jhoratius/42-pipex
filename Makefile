@@ -9,6 +9,7 @@ PATHSRCS 	= src/
 
 SRCS 		= $(addsuffix ${EXTSRCS}, \
 							$(addprefix ${PATHSRCS}, \
+							ft_close_fds \
 							ft_handle_files \
 							ft_split \
 							ft_work_pid \
