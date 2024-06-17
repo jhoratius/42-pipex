@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/13 13:52:21 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:46:56 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,71 +19,40 @@
 
 int	main(int ac, char **av, char **env)
 {
-	int			pid_start;
-	int			pid_mid;
-	int			pid_end;
-	int			fd[2][2];
+	int			curr_pipe;
 	int			i;
 
-	if (ac <= 5)
+	if (ac < 5)
 		return (1);
+	curr_pipe = 0;
 	i = 1;
 	if (!check_access(av[1], av[ac - 1]))
 		return (1);
-	if (pipe(fd[0]) < 0 || pipe(fd[1]) < 0)
-		return (1);
-	pid_start = fork();
-	if (pid_start < 0)
+	while (i < ac - 1)
 	{
-		perror("fork fail 1");
-		return (1);
-	}
-	else if (pid_start == 0)
-	{
-		if (ft_handle_infile(av[1], av[2], env, fd) == 1)
+		if (i == 1)
 		{
-			fprintf(stderr, "issue on handle infile");
-			return (1);
+			curr_pipe = ft_handle_infile(av[1], av[2], env);
+			if (curr_pipe == -1)
+				return (fprintf(stderr, "issue on handle infile"), 1);
 		}
-	}
-	// while (i < ac - 2)
-	// {
-	// 	i++;
-	// }
-	pid_mid = fork();
-	if (pid_mid < 0)
-	{
-		perror("fork fail 2");
-		return (1);
-	}
-	else if (pid_mid == 0)
-	{
-		if (ft_handle_inter_cmds(av[3], env, fd) == 1)
+		else if (i == (ac - 1))
 		{
-			fprintf(stderr, "issue on handle infile");
-			return (1);
+			curr_pipe = ft_handle_inter_cmds(av[i], curr_pipe, env);
+			if (curr_pipe == -1)
+				return (fprintf(stderr, "issue on handle inter cmds"), 1);
 		}
-	}
-	pid_end = fork();
-	if (pid_end < 0)
-	{
-		perror("fork fail 3");
-		return (1);
-	}
-	else if (pid_end == 0)
-	{
-		if (ft_handle_outfile(av[ac - 1], av[ac - 2], env, fd))
+		else if (i > 1 && i < (ac - 1))
 		{
-			fprintf(stderr, "issue on handle outfile");
-			return (1);
+			curr_pipe = ft_handle_outfile(av[ac - 1], av[ac - 2], curr_pipe, env);
+			if (curr_pipe == -1)
+				return (fprintf(stderr, "issue on handle outfile"), 1);
 		}
+		i++;
 	}
-	ft_close_parent_fds(fd);
-	waitpid(pid_start, NULL, 0);
-	waitpid(pid_mid, NULL, 0);
-	waitpid(pid_end, NULL, 0);
-	// while (wait(NULL))
-	// 	;
+	// ft_close_parent_fds(fd);
+	while (wait(NULL))
+		;
 	return (0);
 }
 
@@ -101,4 +70,28 @@ bool	check_access(char *path_infile, char *path_outfile)
 		return (false);
 	}
 	return (true);
+}
+
+int	**ft_alloc_fds(int ac)
+{
+	int	**fd;
+	int	i;
+
+	fd = malloc((ac - 3) * sizeof(int *));
+	if(!fd)
+		return (NULL);
+	i = 0;
+	while (i < (ac - 3))
+	{
+		fd[i] = malloc(2 * sizeof(int));
+		if (!fd[i])
+		{
+			// ft_free_table(fd);
+			return (NULL);
+		}
+		fd[i][0] = 42;
+		fd[i][1] = 42;
+		i++;
+	}
+	return (fd);
 }

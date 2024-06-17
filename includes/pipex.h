@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/13 13:40:54 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:50:19 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,21 @@ int				ft_strncmp(char *s1, char *s2, unsigned int n);
 char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strlen(char *str);
 
-void			ft_work_pid_start(int fd[2][2], int infile);
-void			ft_work_pid_mid(int fd[2][2]);
-void			ft_work_pid_end(int fd[2][2], int outfile);
+int				ft_work_pid_start(int *fd, int infile);
+int				ft_work_pid_mid(int *fd, int curr_pipe);
+int				ft_work_pid_end(int *fd, int outfile, int curr_pipe);
 
 //ft_handle_infile
-int				ft_handle_infile(char *file_name, char *cmd_name, char **env, int fd[2][2]);
-int				ft_handle_outfile(char *file_name, char *cmd_name, char **env, int fd[2][2]);
-int				ft_handle_inter_cmds(char *cmd_name, char **env, int fd[2][2]);
+int				ft_handle_infile(char *file_name, char *cmd_name, char **env);
+int				ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env);
+int				ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **env);
+void			ft_perror_msg(int *fd, char *msg);
 
 //ft_close_fds
-void			ft_close_parent_fds(int fd[2][2]);
+void			ft_close_parent_fds(int *fd);
+
+int				**ft_alloc_fds(int ac);
+
+void			ft_perror_msg(int *fd, char *msg);
 
 #endif

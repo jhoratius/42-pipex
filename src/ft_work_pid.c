@@ -6,41 +6,44 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 19:38:28 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/12 19:38:49 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:50:49 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	ft_work_pid_start(int fd[2][2], int infile)
+int	ft_work_pid_start(int *fd, int infile)
 {
-	close(fd[1][0]);
-	close(fd[1][1]);
-	close(fd[0][0]);
-	dup2(infile, STDIN_FILENO);
+	close(fd[0]);
+	if (dup2(infile, STDIN_FILENO))
+		return (-1);
 	close(infile);
-	dup2(fd[0][1], STDOUT_FILENO);
-	close(fd[0][1]);
+	if (dup2(fd[1], STDOUT_FILENO))
+		return (-1);
+	close(fd[1]);
+	return (0);
 }
 
-void	ft_work_pid_mid(int fd[2][2])
+int	ft_work_pid_mid(int *fd, int curr_pipe)
 {
-	close(fd[0][1]);
-	close(fd[1][0]);
-	dup2(fd[0][0], STDIN_FILENO);
-	close(fd[0][0]);
-	close(fd[1][0]);
-	dup2(fd[1][1], STDOUT_FILENO);
-	close(fd[1][1]);
+	if (dup2(curr_pipe, STDIN_FILENO))
+		return (-1);
+	close(curr_pipe);
+	if (dup2(fd[1], STDOUT_FILENO))
+		return (-1);
+	close(fd[1]);
+	return (fd[0]);
 }
 
-void	ft_work_pid_end(int fd[2][2], int outfile)
+int	ft_work_pid_end(int *fd, int outfile, int curr_pipe)
 {
-	close(fd[0][0]);
-	close(fd[0][1]);
-	close(fd[1][1]);
-	dup2(fd[1][0], STDIN_FILENO);
-	dup2(outfile, STDOUT_FILENO);
-	close(fd[1][0]);
+	close(fd[1]);
+	if (dup2(curr_pipe, STDIN_FILENO))
+		return (-1);
+	close(curr_pipe);
+	if (dup2(outfile, STDOUT_FILENO))
+		return (-1);
+	close(fd[0]);
 	close(outfile);
+	return (0);
 }

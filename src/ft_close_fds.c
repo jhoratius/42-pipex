@@ -6,16 +6,14 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 13:37:21 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/13 13:40:57 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:24:45 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	ft_close_parent_fds(int fd[2][2])
+void	ft_close_parent_fds(int *fd)
 {
-	close(fd[0][0]);
-	close(fd[0][1]);
-	close(fd[1][0]);
-	close(fd[1][1]);
+	close(fd[0]);
+	close(fd[1]);
 }
