@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/17 15:46:56 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:33:03 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,21 @@ int	main(int ac, char **av, char **env)
 	if (ac < 5)
 		return (1);
 	curr_pipe = 0;
-	i = 1;
+	i = 2;
 	if (!check_access(av[1], av[ac - 1]))
 		return (1);
-	while (i < ac - 1)
+	while (i < ac - 1 && curr_pipe != -1)
 	{
-		if (i == 1)
-		{
+		// printf("curr_pipe im main : %d\n", curr_pipe);
+		if (i == 2)
 			curr_pipe = ft_handle_infile(av[1], av[2], env);
-			if (curr_pipe == -1)
-				return (fprintf(stderr, "issue on handle infile"), 1);
-		}
-		else if (i == (ac - 1))
-		{
-			curr_pipe = ft_handle_inter_cmds(av[i], curr_pipe, env);
-			if (curr_pipe == -1)
-				return (fprintf(stderr, "issue on handle inter cmds"), 1);
-		}
-		else if (i > 1 && i < (ac - 1))
-		{
+		else if (i == ac - 2)
 			curr_pipe = ft_handle_outfile(av[ac - 1], av[ac - 2], curr_pipe, env);
-			if (curr_pipe == -1)
-				return (fprintf(stderr, "issue on handle outfile"), 1);
-		}
+		else
+			curr_pipe = ft_handle_inter_cmds(av[i], curr_pipe, env);
 		i++;
 	}
-	// ft_close_parent_fds(fd);
-	while (wait(NULL))
+	while (wait(NULL) > 0)
 		;
 	return (0);
 }
@@ -61,6 +49,7 @@ bool	check_access(char *path_infile, char *path_outfile)
 	if (access(path_infile, R_OK) == -1)
 	{
 		printf("infile [read not allowed]\n");
+		//si l'infile n'existe pas, continuer l'execution
 		return (false);
 	}
 	if (access(path_outfile, F_OK) != -1 && access(path_outfile, W_OK) == -1)

@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 19:38:28 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/17 15:50:49 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:30:22 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,43 @@
 int	ft_work_pid_start(int *fd, int infile)
 {
 	close(fd[0]);
-	if (dup2(infile, STDIN_FILENO))
+	// printf("closing fd[0] : %d\n", fd[0]);
+	if (dup2(infile, STDIN_FILENO) == -1)
 		return (-1);
 	close(infile);
-	if (dup2(fd[1], STDOUT_FILENO))
+	// printf("closing infile : %d\n", infile);
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
+	{
+		// fprintf(stderr, "start dup2 failed\n");
 		return (-1);
+	}
 	close(fd[1]);
+	// fprintf(stderr, "closing fd[1] : %d\n", fd[1]);
 	return (0);
 }
 
 int	ft_work_pid_mid(int *fd, int curr_pipe)
 {
-	if (dup2(curr_pipe, STDIN_FILENO))
+	if (dup2(curr_pipe, STDIN_FILENO) == -1)
 		return (-1);
 	close(curr_pipe);
-	if (dup2(fd[1], STDOUT_FILENO))
+	// printf("closing curr_pipe : %d\n", curr_pipe);
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		return (-1);
 	close(fd[1]);
+	// printf("closing fd[1] : %d\n", fd[1]);
 	return (fd[0]);
 }
 
-int	ft_work_pid_end(int *fd, int outfile, int curr_pipe)
+int	ft_work_pid_end(int outfile, int curr_pipe)
 {
-	close(fd[1]);
-	if (dup2(curr_pipe, STDIN_FILENO))
+	if (dup2(curr_pipe, STDIN_FILENO) == -1)
 		return (-1);
 	close(curr_pipe);
-	if (dup2(outfile, STDOUT_FILENO))
+	// printf("closing curr_pipe : %d\n", curr_pipe);
+	if (dup2(outfile, STDOUT_FILENO) == -1)
 		return (-1);
-	close(fd[0]);
 	close(outfile);
+	// printf("closing outfile : %d\n", outfile);
 	return (0);
 }

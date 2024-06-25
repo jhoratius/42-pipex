@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/17 15:50:19 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:48:18 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				ft_strlen(char *str);
 
 int				ft_work_pid_start(int *fd, int infile);
 int				ft_work_pid_mid(int *fd, int curr_pipe);
-int				ft_work_pid_end(int *fd, int outfile, int curr_pipe);
+int				ft_work_pid_end(int outfile, int curr_pipe);
 
 //ft_handle_infile
 int				ft_handle_infile(char *file_name, char *cmd_name, char **env);
@@ -53,7 +53,7 @@ int				ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **
 void			ft_perror_msg(int *fd, char *msg);
 
 //ft_close_fds
-void			ft_close_parent_fds(int *fd);
+// void			ft_close_parent_fds(int *fd);
 
 int				**ft_alloc_fds(int ac);
 
