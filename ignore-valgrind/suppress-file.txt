@@ -1,0 +1,27 @@
+{
+	ignore_grep_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/grep
+}
+
+{
+	ignore_ls_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/ls
+}
+
+{
+	ignore_wc_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/wc
+}
+
+{
+	ignore_cat_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/cat
+}

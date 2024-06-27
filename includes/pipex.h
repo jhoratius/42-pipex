@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/25 16:48:18 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:27:00 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 // pipex
 char			**cmd_check(char *cmd, char **env, char **path);

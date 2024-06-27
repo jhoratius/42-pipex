@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/13 13:46:17 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:15:32 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ char	**cmd_check(char *cmd, char **env, char **path)
 		return (NULL);
 	env_args = check_path(env);
 	if (!env_args)
-		return (free(args), NULL);
+		return (ft_free_table(args), NULL);
 	*path = create_path(args, env_args);
 	if (!path)
-		return (free(args), free(env_args), NULL);
+		return (ft_free_table(args), ft_free_table(env_args), NULL);
 	ft_free_table(env_args);
-	if (!path)
-		return (NULL);
 	return (args);
 }
 
@@ -97,13 +95,10 @@ void	ft_free_table(char **split)
 	int	i;
 
 	i = 0;
-	while (split[i])
+	while (split[i] != NULL)
 	{
-		if (split[i] != NULL)
-		{
-			free(split[i]);
-			split[i] = NULL;
-		}
+		free(split[i]);
+		split[i] = NULL;
 		i++;
 	}
 	free(split);

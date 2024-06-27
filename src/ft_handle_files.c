@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/25 18:34:59 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:22:16 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_handle_infile(char *file_name, char *cmd_name, char **env)
 	int		fd[2];
 	int		pid_start;
 
+	// fprintf(stderr, "INFILE\n");
 	infile = 42;
 	path = NULL;
 	if (pipe(fd) == -1)
@@ -41,10 +42,8 @@ int	ft_handle_infile(char *file_name, char *cmd_name, char **env)
 		ft_work_pid_start(fd, infile);
 		if (execve(path, cmd, env) == -1)
 		{
-			free(path);
 			ft_free_table(cmd);
-			perror("exec fail 1");
-			exit(EXIT_FAILURE);
+			return (ft_perror_msg(fd, "exec fail 1"), 1);
 		}
 	}
 	close(fd[1]);
@@ -59,7 +58,7 @@ int	ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env)
 	int		fd[2];
 	int		pid_mid;
 
-	// fprintf(stderr, "intercmd\n");
+	// fprintf(stderr, "INTERCMD\n");
 	path = NULL;
 	if (pipe(fd) < 0)
 		return (1);
@@ -71,20 +70,18 @@ int	ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env)
 		cmd = cmd_check(cmd_name, env, &path);
 		if (!cmd)
 			return (1);
+		fprintf(stderr, "ok printf\n");
 		ft_work_pid_mid(fd, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
-			free(path);
 			ft_free_table(cmd);
 			return (ft_perror_msg(fd, "exec fail 2"), 1);
 		}
 		return (0);
 	}
-	else
-	{
-		close(fd[1]);
-		// printf("parent closing fd[1] : %d\n", fd[1]);
-	}
+	close(fd[1]);
+	close(curr_pipe);
+	// printf("parent closing fd[1] : %d\n", fd[1]);
 	return (fd[0]);
 }
 
@@ -107,12 +104,9 @@ int	ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **env
 		if (outfile < 0)
 			return (1);
 		cmd = cmd_check(cmd_name, env, &path);
-		if (!cmd)
-			return (1);
 		ft_work_pid_end(outfile, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
-			free(path);
 			ft_free_table(cmd);
 			return (perror("exec fail 3"), 1);
 		}
