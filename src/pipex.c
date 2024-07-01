@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/27 13:27:26 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:56:08 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,23 @@
 
 int	main(int ac, char **av, char **env)
 {
-	signal(SIGPIPE, SIG_IGN);
 	int			curr_pipe;
 	int			i;
 
+	signal(SIGPIPE, SIG_IGN);
 	if (ac < 5)
 		return (1);
+	if (ft_strncmp(av[1], "here_doc", 7) == 0)
+	{
+		ft_here_doc(av, env);
+		return (0);
+	}
 	curr_pipe = 0;
 	i = 1;
 	if (!check_access(av[1], av[ac - 1]))
 		return (1);
 	while (++i < ac - 1 && curr_pipe != -1)
 	{
-		// fprintf(stderr, "i : %d\n", i);
 		if (i == 2)
 		{
 			fprintf(stderr, "infile handled\n");
@@ -40,7 +44,7 @@ int	main(int ac, char **av, char **env)
 		else if (i == ac - 2)
 		{
 			fprintf(stderr, "outfile handled\n");
-			curr_pipe = ft_handle_outfile(av[ac - 1], av[ac - 2], curr_pipe, env);
+			curr_pipe = ft_handle_outfile(av[ac -1], av[ac -2], curr_pipe, env);
 		}
 		else
 		{

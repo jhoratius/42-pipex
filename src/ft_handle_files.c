@@ -6,13 +6,13 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/27 16:22:16 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:57:03 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	ft_handle_infile(char *file_name, char *cmd_name, char **env)
+int	ft_handle_infile(char *file_, char *cmd_, char **env)
 {
 	char	*path;
 	char	**cmd;
@@ -20,23 +20,19 @@ int	ft_handle_infile(char *file_name, char *cmd_name, char **env)
 	int		fd[2];
 	int		pid_start;
 
-	// fprintf(stderr, "INFILE\n");
 	infile = 42;
 	path = NULL;
 	if (pipe(fd) == -1)
-		return (1);
+		return (printf("pipe error\n"), 1);
 	pid_start = fork();
 	if (pid_start < 0)
-	{
-		ft_perror_msg(fd, "fork fail 1");
-		return (1);
-	}
+		return (ft_perror_msg(fd, "fork fail 1"), 1);
 	if (pid_start == 0)
 	{
-		infile = open((const char *)file_name, O_RDONLY);
+		infile = open((const char *)file_, O_RDONLY);
 		if (infile < 0)
 			return (ft_perror_msg(fd, "file not found"), 1);
-		cmd = cmd_check(cmd_name, env, &path);
+		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd)
 			return (ft_perror_msg(fd, "command not found"), 1);
 		ft_work_pid_start(fd, infile);
@@ -47,18 +43,16 @@ int	ft_handle_infile(char *file_name, char *cmd_name, char **env)
 		}
 	}
 	close(fd[1]);
-	// printf("parent closing fd[1] : %d\n", fd[1]);
 	return (fd[0]);
 }
 
-int	ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env)
+int	ft_handle_inter_cmds(char *cmd_, int curr_pipe, char **env)
 {
 	char	*path;
 	char	**cmd;
 	int		fd[2];
 	int		pid_mid;
 
-	// fprintf(stderr, "INTERCMD\n");
 	path = NULL;
 	if (pipe(fd) < 0)
 		return (1);
@@ -67,10 +61,9 @@ int	ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env)
 		return (ft_perror_msg(fd, "fork fail 2"), 1);
 	else if (pid_mid == 0)
 	{
-		cmd = cmd_check(cmd_name, env, &path);
+		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd)
 			return (1);
-		fprintf(stderr, "ok printf\n");
 		ft_work_pid_mid(fd, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
@@ -81,18 +74,16 @@ int	ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env)
 	}
 	close(fd[1]);
 	close(curr_pipe);
-	// printf("parent closing fd[1] : %d\n", fd[1]);
 	return (fd[0]);
 }
 
-int	ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **env)
+int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 {
 	char	*path;
 	char	**cmd;
 	int		outfile;
 	int		pid_end;
 
-	// fprintf(stderr, "OUTFILE\n");
 	outfile = 42;
 	path = NULL;
 	pid_end = fork();
@@ -100,19 +91,18 @@ int	ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **env
 		return (perror("fork fail 3"), 1);
 	if (pid_end == 0)
 	{
-		outfile = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		outfile = open(file_, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (outfile < 0)
 			return (1);
-		cmd = cmd_check(cmd_name, env, &path);
-		ft_work_pid_end(outfile, curr_pipe);
+		cmd = cmd_check(cmd_, env, &path);
+		ft_work_pid_end(outfile, curr);
 		if (execve(path, cmd, env) == -1)
 		{
 			ft_free_table(cmd);
 			return (perror("exec fail 3"), 1);
 		}
 	}
-	close(curr_pipe);
-	// printf("parent closing curr_pipe : %d\n", curr_pipe);
+	close(curr);
 	return (0);
 }
 

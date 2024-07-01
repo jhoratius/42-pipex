@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/27 13:27:00 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:56:49 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 
+# include "get_next_line.h"
+
 // pipex
 char			**cmd_check(char *cmd, char **env, char **path);
 bool			check_access(char *path_infile, char *path_outfile);
@@ -40,7 +42,9 @@ char			**ft_split(const char *s, char c);
 
 // utils
 int				ft_strncmp(char *s1, char *s2, unsigned int n);
-char			*ft_strjoin(char const *s1, char const *s2);
+int				ft_strcmp(char *s1, char *s2);
+int				ft_limitercmp(char	*lim, char *line, unsigned int n);
+// char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strlen(char *str);
 
 int				ft_work_pid_start(int *fd, int infile);
@@ -48,16 +52,16 @@ int				ft_work_pid_mid(int *fd, int curr_pipe);
 int				ft_work_pid_end(int outfile, int curr_pipe);
 
 //ft_handle_infile
-int				ft_handle_infile(char *file_name, char *cmd_name, char **env);
+int				ft_handle_infile(char *file, char *cmd, char **env);
 int				ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env);
-int				ft_handle_outfile(char *file_name, char *cmd_name, int curr_pipe, char **env);
+int				ft_handle_outfile(char *file, char *cmd, int curr, char **env);
 void			ft_perror_msg(int *fd, char *msg);
 
-//ft_close_fds
-// void			ft_close_parent_fds(int *fd);
+//ft_here_doc
+int				ft_here_doc(char **av, char **env);
+int				ft_exec_tmp(char **av, char **env, int tmp_fd);
 
-int				**ft_alloc_fds(int ac);
-
-void			ft_perror_msg(int *fd, char *msg);
+// Get_next_line
+char			*get_next_line(int fd, void **result);
 
 #endif

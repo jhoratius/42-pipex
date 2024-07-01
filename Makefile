@@ -4,19 +4,29 @@ CC 			= cc
 CFLAGS 		= -Wall -Wextra -Werror -g3
 #  -Werror
 RM 			= rm -f
-EXTSRCS 	= .c
-PATHSRCS 	= src/
+EXTS 	= .c
 
-SRCS 		= $(addsuffix ${EXTSRCS}, \
-							$(addprefix ${PATHSRCS}, \
-							ft_close_fds \
-							ft_handle_files \
-							ft_split \
-							ft_work_pid \
-							parsing \
-							pipex \
-							utils \
-				))
+MAINPRE 	= src/
+GNLPRE		= get_next_line/
+
+# SRCS 		= $(addsuffix ${EXTSRCS}, \
+# 							$(addprefix ${PATHSRCS},
+MAINFILES =		ft_close_fds \
+				ft_handle_files \
+				ft_here_docs \
+				ft_split \
+				ft_work_pid \
+				parsing \
+				pipex \
+				utils \
+
+GNLFILES =		get_next_line \
+				get_next_line_utils \
+
+SRCS = $(addsuffix ${EXTS}, \
+			$(addprefix ${MAINPRE}, $(MAINFILES)) \
+			$(addprefix ${GNLPRE}, $(GNLFILES)) \
+		)
 
 OBJS=$(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:21:34 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/13 13:46:34 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:05:22 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,31 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 
 	i = 0;
 	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
+	{
+		if (s1[i] == s2[i])
+			j = 0;
+		else if (s1[i] < s2[i])
+		{
+			j = s1[i] - s2[i];
+			return (j);
+		}
+		else if (s1[i] > s2[i])
+		{
+			j = s1[i] - s2[i];
+			return (j);
+		}
+		i += 1;
+	}
+	return (0);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	while ((s1[i] != '\0' || s2[i] != '\0'))
 	{
 		if (s1[i] == s2[i])
 			j = 0;
