@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:21:34 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 18:05:22 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:48:59 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	str = (char *)malloc((ft_strlen((char *)s1)) + (ft_strlen((char *)s2)) + 1);
+	str = ft_calloc((ft_strlen((char *)s1)) + (ft_strlen((char *)s2)) + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	while (s1 != NULL && s1[j] != '\0')

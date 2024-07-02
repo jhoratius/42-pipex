@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:50:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 16:17:35 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:48:00 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*fd_read(int fd, char *buffer)
 
 	if (!buffer)
 		buffer = ft_calloc(1, sizeof(char));
-	str = malloc(BUFFER_SIZE + 1);
+	str = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	readbytes = 1;

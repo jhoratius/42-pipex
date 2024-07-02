@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 18:57:03 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:26:41 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_handle_infile(char *file_, char *cmd_, char **env)
 	infile = 42;
 	path = NULL;
 	if (pipe(fd) == -1)
-		return (printf("pipe error\n"), 1);
+		return (perror("pipe error\n"), 1);
 	pid_start = fork();
 	if (pid_start < 0)
 		return (ft_perror_msg(fd, "fork fail 1"), 1);
@@ -31,10 +31,11 @@ int	ft_handle_infile(char *file_, char *cmd_, char **env)
 	{
 		infile = open((const char *)file_, O_RDONLY);
 		if (infile < 0)
-			return (ft_perror_msg(fd, "file not found"), 1);
+			return (ft_perror_msg(fd, "file not found 1"), 1);
 		cmd = cmd_check(cmd_, env, &path);
+		// replace ft_perror_msg by write and handle fds closes
 		if (!cmd)
-			return (ft_perror_msg(fd, "command not found"), 1);
+			return (close(fd[0]), close(fd[1]), close(infile), ft_perror_msg(fd, "cmd not found 1"), 1);
 		ft_work_pid_start(fd, infile);
 		if (execve(path, cmd, env) == -1)
 		{
@@ -62,8 +63,9 @@ int	ft_handle_inter_cmds(char *cmd_, int curr_pipe, char **env)
 	else if (pid_mid == 0)
 	{
 		cmd = cmd_check(cmd_, env, &path);
+		// handle cmd error, close fds
 		if (!cmd)
-			return (1);
+			return(close(fd[0]), close(fd[1]), close(curr_pipe), write(1, "cmd not found\n", 15), 1);
 		ft_work_pid_mid(fd, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
@@ -93,8 +95,11 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 	{
 		outfile = open(file_, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (outfile < 0)
-			return (1);
+			return (perror("open outfile fail 3"), 1);
 		cmd = cmd_check(cmd_, env, &path);
+		// handle cmd error, close fds and outfile
+		if (!cmd)
+			return(close(outfile), write(1, "cmd not found\n", 15), 1);
 		ft_work_pid_end(outfile, curr);
 		if (execve(path, cmd, env) == -1)
 		{

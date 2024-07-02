@@ -1,0 +1,21 @@
+total 88
+drwxr-xr-x 8 jhoratiu 2023_paris  4096 Jul  2 16:15 .
+drwxr-xr-x 3 jhoratiu 2023_paris    29 May 16 14:55 ..
+-rw-r--r-- 1 jhoratiu 2023_paris     2 Jul  2 16:15 bad_outfile_2
+drwxr-xr-x 2 jhoratiu 2023_paris   110 Jul  2 16:15 get_next_line
+drwxr-xr-x 8 jhoratiu 2023_paris  4096 Jul  1 19:20 .git
+drwxr-xr-x 2 jhoratiu 2023_paris    50 Jun 12 17:24 ignore-valgrind
+drwxr-xr-x 2 jhoratiu 2023_paris    44 Jul  1 16:05 includes
+-rwxrwxrwx 1 jhoratiu 2023_paris     0 Jul  2 16:15 in_file
+-rw-r--r-- 1 jhoratiu 2023_paris   559 Jun 26 17:42 lol
+-rw-r--r-- 1 jhoratiu 2023_paris  5646 Jul  2 14:05 Makefile
+-rw-r--r-- 1 jhoratiu 2023_paris  4878 Jul  2 14:04 Makefile_tester
+-rw-r--r-- 1 jhoratiu 2023_paris    59 Jul  1 19:03 outf
+-rw-r--r-- 1 jhoratiu 2023_paris  1216 Jul  2 16:15 out_file
+-rw-r--r-- 1 jhoratiu 2023_paris     2 Jun 13 14:25 outfile
+-rw-r--r-- 1 jhoratiu 2023_paris     0 Jul  2 16:15 out_file_ok
+-rwxr-xr-x 1 jhoratiu 2023_paris 32896 Jul  2 16:15 pipex
+-rw-r--r-- 1 jhoratiu 2023_paris    10 May 16 14:55 README.md
+drwxr-xr-x 2 jhoratiu 2023_paris  4096 Jul  2 16:15 src
+-rw-r--r-- 1 jhoratiu 2023_paris     0 Jun 26 17:44 test
+drwxr-xr-x 2 jhoratiu 2023_paris    27 May 22 16:41 .vscode

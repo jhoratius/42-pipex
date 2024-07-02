@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 18:56:08 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:24:27 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **env)
 
 	signal(SIGPIPE, SIG_IGN);
 	if (ac < 5)
-		return (1);
+		return (write(1, "Not enough arguments\n", 21));
 	if (ft_strncmp(av[1], "here_doc", 7) == 0)
 	{
 		ft_here_doc(av, env);

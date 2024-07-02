@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:39:45 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/05/22 16:40:18 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:01:10 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	ft_tab_imp(char **tab, char *str, char c)
 		len = 0;
 		while (str[i + len] != '\0' && str[i + len] != c)
 			len++;
-		tab[k] = malloc((len + 1) * sizeof(char));
+		tab[k] = ft_calloc((len + 1), sizeof(char));
 		if (!tab[k])
 			return (0);
 		j = 0;
@@ -82,7 +82,7 @@ char	**ft_split(const char *s, char c)
 
 	if (!s)
 		return (NULL);
-	tab = malloc((ft_count_words(s, c) + 1) * sizeof(char *));
+	tab = ft_calloc((ft_count_words(s, c) + 1), sizeof(char *));
 	if (!tab)
 		return (NULL);
 	if (!(ft_tab_imp(tab, (char *)s, c)))

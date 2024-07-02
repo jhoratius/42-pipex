@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/06/27 16:15:32 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/02 14:17:31 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,11 @@ void	ft_free_table(char **split)
 	i = 0;
 	while (split[i] != NULL)
 	{
-		free(split[i]);
-		split[i] = NULL;
+		if (split[i])
+		{
+			free(split[i]);
+			split[i] = NULL;
+		}
 		i++;
 	}
 	free(split);
