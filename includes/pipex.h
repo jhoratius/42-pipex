@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 18:56:49 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:40:27 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -28,7 +29,7 @@
 
 // pipex
 char			**cmd_check(char *cmd, char **env, char **path);
-bool			check_access(char *path_infile, char *path_outfile);
+// bool			check_access(char *path_infile, char *path_outfile);
 
 // parsing
 bool			parsing(char **av, char **env);
@@ -44,7 +45,6 @@ char			**ft_split(const char *s, char c);
 int				ft_strncmp(char *s1, char *s2, unsigned int n);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_limitercmp(char	*lim, char *line, unsigned int n);
-// char			*ft_strjoin(char const *s1, char const *s2);
 int				ft_strlen(char *str);
 
 int				ft_work_pid_start(int *fd, int infile);
@@ -56,6 +56,7 @@ int				ft_handle_infile(char *file, char *cmd, char **env);
 int				ft_handle_inter_cmds(char *cmd_name, int curr_pipe, char **env);
 int				ft_handle_outfile(char *file, char *cmd, int curr, char **env);
 void			ft_perror_msg(int *fd, char *msg);
+void			ft_close_fd_err(int *fd, int curr_pipe, int file, char *line);
 
 //ft_here_doc
 int				ft_here_doc(char **av, char **env);

@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/02 17:26:41 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:35:23 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ int	ft_handle_infile(char *file_, char *cmd_, char **env)
 	{
 		infile = open((const char *)file_, O_RDONLY);
 		if (infile < 0)
-			return (ft_perror_msg(fd, "file not found 1"), 1);
+			ft_perror_msg(fd, "file not found 1");
 		cmd = cmd_check(cmd_, env, &path);
-		// replace ft_perror_msg by write and handle fds closes
 		if (!cmd)
-			return (close(fd[0]), close(fd[1]), close(infile), ft_perror_msg(fd, "cmd not found 1"), 1);
+		{
+			ft_close_fd_err(fd, 0, infile, "cmd not found 1\n");
+			exit(EXIT_FAILURE);
+		}
 		ft_work_pid_start(fd, infile);
 		if (execve(path, cmd, env) == -1)
 		{
 			ft_free_table(cmd);
+			fprintf(stderr, "printf test 1\n");
 			return (ft_perror_msg(fd, "exec fail 1"), 1);
 		}
 	}
@@ -63,13 +66,14 @@ int	ft_handle_inter_cmds(char *cmd_, int curr_pipe, char **env)
 	else if (pid_mid == 0)
 	{
 		cmd = cmd_check(cmd_, env, &path);
-		// handle cmd error, close fds
 		if (!cmd)
-			return(close(fd[0]), close(fd[1]), close(curr_pipe), write(1, "cmd not found\n", 15), 1);
+			return (ft_close_fd_err(fd, curr_pipe, 0, "cmd not found 2"), 1);
+		fprintf(stderr, "here 2");
 		ft_work_pid_mid(fd, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
 			ft_free_table(cmd);
+			fprintf(stderr, "printf test 2\n");
 			return (ft_perror_msg(fd, "exec fail 2"), 1);
 		}
 		return (0);
@@ -97,16 +101,20 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 		if (outfile < 0)
 			return (perror("open outfile fail 3"), 1);
 		cmd = cmd_check(cmd_, env, &path);
-		// handle cmd error, close fds and outfile
-		if (!cmd)
-			return(close(outfile), write(1, "cmd not found\n", 15), 1);
+		if (!cmd || !path)
+		{
+			ft_close_fd_err(NULL, curr, outfile, "cmd not found");
+			exit(EXIT_FAILURE);
+		}
+		fprintf(stderr, "cmd[1] : %s\n", cmd[1]);
 		ft_work_pid_end(outfile, curr);
 		if (execve(path, cmd, env) == -1)
 		{
 			ft_free_table(cmd);
-			return (perror("exec fail 3"), 1);
+			exit(EXIT_FAILURE);
 		}
 	}
+	close(outfile);
 	close(curr);
 	return (0);
 }
@@ -116,4 +124,20 @@ void	ft_perror_msg(int *fd, char *msg)
 	close(fd[0]);
 	close(fd[1]);
 	perror(msg);
+}
+
+void	ft_close_fd_err(int *fd, int curr_pipe, int file, char *line)
+{
+	if (fd != NULL)
+	{
+		if (fd[0] > 0)
+			close(fd[0]);
+		if (fd[1] > 0)
+			close(fd[1]);
+	}
+	if (curr_pipe > 0)
+		close(curr_pipe);
+	if (file > 0)
+		close(file);
+	write(1, line, ft_strlen(line));
 }

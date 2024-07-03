@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/02 14:17:31 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:24:43 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@ char	**cmd_check(char *cmd, char **env, char **path)
 	args = ft_split(cmd, ' ');
 	if (!args)
 		return (NULL);
+	while (args[i])
+	{
+		fprintf(stderr, "args[i] : %s\n", args[i]);
+		i++;
+	}
+	i = 0;
 	env_args = check_path(env);
 	if (!env_args)
 		return (ft_free_table(args), NULL);
 	*path = create_path(args, env_args);
 	if (!path)
 		return (ft_free_table(args), ft_free_table(env_args), NULL);
+	fprintf(stderr, "path : %s\n", *path);
 	ft_free_table(env_args);
 	return (args);
 }
@@ -60,15 +67,11 @@ char	*create_path(char **cmd, char **env_args)
 	int		i;
 	char	*path;
 	char	*tmp;
-	bool	cmd_found;
 
 	i = 0;
-	cmd_found = false;
 	if (access(cmd[0], X_OK) == 0)
-	{
-		cmd_found = true;
 		return (cmd[0]);
-	}
+		
 	while (env_args[i])
 	{
 		tmp = ft_strjoin(env_args[i], "/");
@@ -79,15 +82,12 @@ char	*create_path(char **cmd, char **env_args)
 			return (NULL);
 		free(tmp);
 		if (access(path, X_OK) == 0)
-		{
-			cmd_found = true;
 			return (path);
-		}
 		free(path);
 		path = NULL;
 		i++;
 	}
-	return (cmd[0]);
+	return (NULL);
 }
 
 void	ft_free_table(char **split)
