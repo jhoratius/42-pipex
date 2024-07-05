@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/03 18:35:23 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:58:51 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd || !path)
 		{
-			ft_close_fd_err(NULL, curr, outfile, "cmd not found");
+			ft_free_table(cmd);
+			ft_close_fd_err(NULL, curr, outfile, "cmd not found 3");
 			exit(EXIT_FAILURE);
 		}
-		fprintf(stderr, "cmd[1] : %s\n", cmd[1]);
 		ft_work_pid_end(outfile, curr);
 		if (execve(path, cmd, env) == -1)
 		{

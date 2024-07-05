@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:50:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/02 14:48:00 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:46:24 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,17 @@ char	*get_rest(char *buffer)
 	return (rest);
 }
 
-char	*get_next_line(int fd, void **result)
+char	*get_next_line(int fd, char **buffer, void **result)
 {
-	static char	*buffer;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = fd_read(fd, buffer);
-	if (!buffer)
+	*buffer = fd_read(fd, *buffer);
+	if (!(*buffer))
 		return (NULL);
-	line = sub_line(buffer);
-	buffer = get_rest(buffer);
+	line = sub_line(*buffer);
+	*buffer = get_rest(*buffer);
 	*result = line;
 	return (line);
 }

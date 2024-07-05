@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/03 18:40:27 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:56:29 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,5 @@ void			ft_close_fd_err(int *fd, int curr_pipe, int file, char *line);
 //ft_here_doc
 int				ft_here_doc(char **av, char **env);
 int				ft_exec_tmp(char **av, char **env, int tmp_fd);
-
-// Get_next_line
-char			*get_next_line(int fd, void **result);
 
 #endif

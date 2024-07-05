@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:06:12 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/05 16:45:47 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:18:30 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // void __attribute__((destructor)) free_buffer();
 
 //get_next_line
-char	*get_next_line(int fd, char **buffer, void **line);
+char	*get_next_line(int fd, void **line);
 int		ft_check(char *str, char c);
 char	*fd_read(int fd, char *buffer);
 char	*sub_line(char *buffer);

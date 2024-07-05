@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:22:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 19:02:47 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:05:29 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ int	ft_here_doc(char **av, char **env)
 	int		tmp_file;
 	int		fd;
 	char	*line;
+	char	*buffer;
 
 	fd = 42;
+	buffer = NULL;
 	tmp_file = open(av[1], O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (tmp_file == -1)
 		return (perror("tmp_file open error"), 1);
 	while (1)
 	{
-		line = get_next_line(0, (void *) &line);
+		line = get_next_line(0, &buffer, (void *) &line);
 		if (line == NULL)
 			break ;
 		if (ft_limitercmp(av[2], line, ft_strlen(av[2])) != 0)
@@ -36,22 +38,13 @@ int	ft_here_doc(char **av, char **env)
 		}
 		free(line);
 	}
+	free(buffer);
 	close(tmp_file);
 	tmp_file = open(av[1], O_RDONLY);
 	if (ft_exec_tmp(av, env, tmp_file) == 1)
 		return (perror("exec tmp failed"), 1);
 	return (0);
 }
-
-// close(tmp_file);
-// tmp_file = open(av[1], O_RDONLY);
-// if(tmp_file == -1)
-// 	return (perror("Error reopen tmp file"), 1);
-// while((line = get_next_line(tmp_file, (void *) &line))){
-// 	printf("%s", line);
-// 	free(line);
-// }
-// close(tmp_file);
 
 int	ft_exec_tmp(char **av, char **env, int tmp_fd)
 {

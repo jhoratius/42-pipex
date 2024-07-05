@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:50:43 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/01 16:20:55 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:36:53 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	}
 	return (ptr);
 }
-
-// char	*ft_strjoin(const char *s1, const char *s2)
-// {
-// 	char	*str;
-// 	size_t	i;
-// 	size_t	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	if (s1 == NULL || s2 == NULL)
-// 		return (NULL);
-// 	str = (char *)malloc((ft_strlen((char *)s1)) + (ft_strlen((char *)s2)) + 1);
-// 	if (!str)
-// 		return (NULL);
-// 	while (s1 != NULL && s1[j] != '\0')
-// 		str[i++] = s1[j++];
-// 	j = 0;
-// 	while (s2 != NULL && s2[j] != '\0')
-// 		str[i++] = s2[j++];
-// 	str[i] = '\0';
-// 	return (str);
-// }
 
 char	*ft_free_join(char *buffer, char *str)
 {

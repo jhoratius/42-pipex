@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:48:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/03 18:24:43 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:56:23 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,16 @@ char	**cmd_check(char *cmd, char **env, char **path)
 	args = ft_split(cmd, ' ');
 	if (!args)
 		return (NULL);
-	while (args[i])
-	{
-		fprintf(stderr, "args[i] : %s\n", args[i]);
-		i++;
-	}
 	i = 0;
 	env_args = check_path(env);
 	if (!env_args)
 		return (ft_free_table(args), NULL);
 	*path = create_path(args, env_args);
 	if (!path)
+	{
+		fprintf(stderr, "OUUUWI\n");
 		return (ft_free_table(args), ft_free_table(env_args), NULL);
-	fprintf(stderr, "path : %s\n", *path);
+	}
 	ft_free_table(env_args);
 	return (args);
 }
@@ -71,7 +68,6 @@ char	*create_path(char **cmd, char **env_args)
 	i = 0;
 	if (access(cmd[0], X_OK) == 0)
 		return (cmd[0]);
-		
 	while (env_args[i])
 	{
 		tmp = ft_strjoin(env_args[i], "/");
