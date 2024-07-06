@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/05 14:58:51 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/06 13:52:14 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,10 @@ int	ft_handle_inter_cmds(char *cmd_, int curr_pipe, char **env)
 		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd)
 			return (ft_close_fd_err(fd, curr_pipe, 0, "cmd not found 2"), 1);
-		fprintf(stderr, "here 2");
 		ft_work_pid_mid(fd, curr_pipe);
 		if (execve(path, cmd, env) == -1)
 		{
 			ft_free_table(cmd);
-			fprintf(stderr, "printf test 2\n");
 			return (ft_perror_msg(fd, "exec fail 2"), 1);
 		}
 		return (0);
@@ -89,6 +87,7 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 	char	**cmd;
 	int		outfile;
 	int		pid_end;
+	// int		i = 0;
 
 	outfile = 42;
 	path = NULL;
@@ -100,6 +99,7 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 		outfile = open(file_, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (outfile < 0)
 			return (perror("open outfile fail 3"), 1);
+		
 		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd || !path)
 		{
@@ -114,7 +114,6 @@ int	ft_handle_outfile(char *file_, char *cmd_, int curr, char **env)
 			exit(EXIT_FAILURE);
 		}
 	}
-	close(outfile);
 	close(curr);
 	return (0);
 }

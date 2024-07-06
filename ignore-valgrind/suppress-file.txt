@@ -25,3 +25,10 @@
 	...
 	obj:/usr/bin/cat
 }
+
+{
+	ignore_env_leaks
+	Memcheck:Leak
+	...
+	obj:/usr/bin/env
+}
