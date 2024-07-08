@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:22:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/08 14:41:19 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:27:49 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_here_doc(char **av, char **env)
 	}
 	ft_handle_hd_err(buffer, &tmp_file, av);
 	if (ft_exec_tmp(av, env, tmp_file) == 1)
-		return (perror("exec tmp failed"), 1);
+		return (perror("Error :"), 1);
 	return (0);
 }
 
@@ -47,7 +47,7 @@ int	ft_init_hd_vars(int *fd, char **buff, char **av, int *tmp_file)
 	*buff = NULL;
 	*tmp_file = open(av[1], O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (*tmp_file == -1)
-		return (perror("tmp_file open error"), 1);
+		return (perror("Error :"), 1);
 	return (0);
 }
 
@@ -66,9 +66,9 @@ int	ft_exec_tmp(char **av, char **env, int tmp_fd)
 	infile = av[1];
 	curr_pipe = ft_handle_infile(av[1], av[3], env);
 	if (curr_pipe == 1)
-		return (perror("handle infile tmp curr_pipe failed"), 1);
+		return (perror("Error :"), 1);
 	if (ft_handle_outfile(av[5], av[4], curr_pipe, env) == 1)
-		return (perror("handle outfile tmp curr_pipe failed"), 1);
+		return (perror("Error :"), 1);
 	close(tmp_fd);
 	while (wait(NULL) > 0)
 		;

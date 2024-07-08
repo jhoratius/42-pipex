@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:58:59 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/05 15:01:55 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:39:16 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	main(int ac, char **av, char **env)
 	int			i;
 
 	if (ac < 5)
-		return (write(1, "Not enough arguments\n", 21));
+		return (write(1, "Not enough arguments\n", 22));
 	if (ac == 6 && !ft_strncmp(av[1], "here_doc", 7) && !ft_here_doc(av, env))
 		return (0);
 	else if (ac == 6 && !ft_strncmp(av[1], "here_doc", 7)
 		&& ft_here_doc(av, env) != 0)
-		return (write(1, "Error here_doc\n", 16), 1);
+		return (perror("Error :"), 1);
 	curr_pipe = 0;
 	i = 1;
 	while (++i < ac - 1 && curr_pipe != -1)

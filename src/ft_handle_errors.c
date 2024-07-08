@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:24:43 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/08 15:05:06 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:06:59 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_close_fd_err(int *fd, int curr_pipe, int file, char *line)
 
 void	ft_handle_infile_err(int *fd, char **cmd, int infile)
 {
-	ft_close_fd_err(fd, 0, infile, "cmd not found 1\n");
+	ft_close_fd_err(fd, 0, infile, "Error. Command not found.\n");
 	ft_free_table(cmd);
 	exit(EXIT_FAILURE);
 }
@@ -47,7 +47,7 @@ void	ft_handle_infile_err(int *fd, char **cmd, int infile)
 void	ft_handle_outfile_err(char **cmd, int curr, int outfile)
 {
 	ft_free_table(cmd);
-	ft_close_fd_err(NULL, curr, outfile, "cmd not found");
+	ft_close_fd_err(NULL, curr, outfile, "Error. Command not found.\n");
 	exit(EXIT_FAILURE);
 }
 
