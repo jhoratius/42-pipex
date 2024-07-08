@@ -2,16 +2,14 @@ NAME = pipex
 
 CC 			= cc
 CFLAGS 		= -Wall -Wextra -Werror -g3
-#  -Werror
 RM 			= rm -f
 EXTS 	= .c
 
 MAINPRE 	= src/
 GNLPRE		= get_next_line/
 
-# SRCS 		= $(addsuffix ${EXTSRCS}, \
-# 							$(addprefix ${PATHSRCS},
 MAINFILES =		ft_close_fds \
+				ft_handle_errors \
 				ft_handle_files \
 				ft_here_docs \
 				ft_split \
@@ -47,14 +45,6 @@ fclean: clean
 re: clean all
 
 .PHONY: all clean fclean re
-
-
-
-
-
-
-
-
 
 
 # ------------------------------------------------------------------------------------------------------------- >
