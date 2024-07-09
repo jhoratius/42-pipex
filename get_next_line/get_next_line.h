@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 16:06:12 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/05 15:18:30 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:54:08 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # ifndef  BUFFER_SIZE
 #  define  BUFFER_SIZE 1
 # endif
-// void __attribute__((destructor)) free_buffer();
 
 //get_next_line
 char	*get_next_line(int fd, void **line);
