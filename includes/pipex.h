@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:36:39 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/08 15:04:44 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:01:02 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <signal.h>
 
 # include "get_next_line.h"
-# include "ftsprintf.h"
 
 // pipex
 char			**cmd_check(char *cmd, char **env, char **path);

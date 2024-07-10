@@ -44,19 +44,29 @@ SRCSBONUS	= $(addsuffix ${EXTS}, \
 OBJSBONUS	= $(SRCSBONUS:.c=.o)
 OBJSMANDAT	= $(SRCSMANDAT:.c=.o)
 
+MANDATORY_BUILT = .mandatory_built
+BONUS_BUILT = .bonus_built
+
 all: $(NAME)
 
 $(NAME): $(OBJSMANDAT)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJSMANDAT)
+	touch $(MANDATORY_BUILT)
+	rm -f $(BONUS_BUILT)
+
+bonus: $(BONUS_BUILT) 
+
+
+$(BONUS_BUILT) : $(OBJSBONUS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJSBONUS)
+	touch $(BONUS_BUILT)
+	rm -rf $(MANDATORY_BUILT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bonus: $(OBJSBONUS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJSBONUS)
-
 clean:
-	$(RM) $(NAME) $(OBJSMANDAT) $(OBJSBONUS)
+	$(RM) $(NAME) $(OBJSMANDAT) $(OBJSBONUS) $(MANDATORY_BUILT) $(BONUS_BUILT)
 
 fclean: clean
 	$(RM) $(NAME)
