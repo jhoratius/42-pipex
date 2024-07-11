@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:22:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/08 16:27:49 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:46:41 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_here_doc(char **av, char **env)
 		}
 		free(line);
 	}
-	ft_handle_hd_err(buffer, &tmp_file, av);
+	ft_handle_hd_err(buffer, &tmp_file);
 	if (ft_exec_tmp(av, env, tmp_file) == 1)
 		return (perror("Error :"), 1);
 	return (0);
@@ -51,11 +51,10 @@ int	ft_init_hd_vars(int *fd, char **buff, char **av, int *tmp_file)
 	return (0);
 }
 
-void	ft_handle_hd_err(char *buffer, int *tmp_file, char **av)
+void	ft_handle_hd_err(char *buffer, int *tmp_file)
 {
 	free(buffer);
 	close(*tmp_file);
-	*tmp_file = open(av[1], O_RDONLY);
 }
 
 int	ft_exec_tmp(char **av, char **env, int tmp_fd)
