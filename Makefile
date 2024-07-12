@@ -19,15 +19,15 @@ MANDATFILES	= 	ft_close_fds 		\
 				pipex 				\
 				utils 				\
 
-BONUSFILES	=	ft_close_fds 		\
-				ft_handle_errors 	\
-				ft_handle_files 	\
-				ft_here_docs 		\
-				ft_split 			\
-				ft_work_pid 		\
-				parsing 			\
-				pipex 				\
-				utils 				\
+BONUSFILES	=	ft_close_fds_bonus		\
+				ft_handle_errors_bonus	\
+				ft_handle_files_bonus	\
+				ft_here_docs_bonus		\
+				ft_split_bonus			\
+				ft_work_pid_bonus		\
+				parsing_bonus			\
+				pipex_bonus				\
+				utils_bonus				\
 
 GNLFILES	=	get_next_line 		\
 				get_next_line_utils \

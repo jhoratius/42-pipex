@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_here_docs.c                                     :+:      :+:    :+:   */
+/*   ft_here_docs_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 17:22:40 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/11 17:46:41 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:45:51 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_exec_tmp(char **av, char **env, int tmp_fd)
 	infile = av[1];
 	curr_pipe = ft_handle_infile(av[1], av[3], env);
 	if (curr_pipe == 1)
-		return (perror("Error :"), 1);
+		return (perror("Error "), 1);
 	if (ft_handle_outfile(av[5], av[4], curr_pipe, env) == 1)
 		return (perror("Error :"), 1);
 	close(tmp_fd);

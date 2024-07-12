@@ -6,7 +6,7 @@
 /*   By: jhoratiu <jhoratiu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 17:40:35 by jhoratiu          #+#    #+#             */
-/*   Updated: 2024/07/09 13:50:48 by jhoratiu         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:20:19 by jhoratiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,10 @@ int	ft_handle_infile(char *file_, char *cmd_, char **env)
 		return (ft_perror_msg(fd, NULL, "Error"), 1);
 	if (pid_start == 0)
 	{
-		infile = open((const char *)file_, O_RDONLY);
-		if (infile < 0)
-			return (ft_perror_msg(fd, NULL, "Error"), 1);
 		cmd = cmd_check(cmd_, env, &path);
 		if (!cmd || !path)
 			ft_handle_infile_err(fd, cmd, infile);
-		ft_work_pid_start(fd, infile);
+		ft_work_pid_start(fd, file_, cmd, path);
 		if (execve(path, cmd, env) == -1)
 			return (ft_perror_msg(fd, cmd, "Error"), 1);
 	}
